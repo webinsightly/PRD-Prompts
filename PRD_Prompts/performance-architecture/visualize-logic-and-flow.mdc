@@ -1,0 +1,272 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 🧩 Architectural Diagram Requirement
+
+## Context
+This rule applies when:
+- Designing new features or systems
+- Modifying existing architecture
+- Documenting system interactions
+- Explaining complex workflows
+- Planning system integrations
+- Reviewing code changes
+- Onboarding new team members
+- Troubleshooting issues
+- Planning system upgrades
+- Documenting system evolution
+
+## Critical Rules
+
+### 1. Diagram Types and Usage
+- Diagrams must capture:
+  - Key components and their interactions
+  - Data flow and transformations
+  - External system integrations
+  - Error handling and fallback paths
+  - State transitions and conditions
+  - Security boundaries
+  - Performance critical paths
+  - Scalability considerations
+  - Monitoring points
+  - Deployment boundaries
+
+### 2. Mermaid Syntax Guidelines
+- Use appropriate diagram types:
+  - `flowchart` for component flows
+  - `sequenceDiagram` for interaction sequences
+  - `classDiagram` for structure relationships
+  - `stateDiagram` for state machines
+  - `erDiagram` for data models
+  - `gantt` for timelines
+  - `pie` for distributions
+  - `graph` for relationships
+
+### 3. Syntax Compatibility
+- Node names must not include unsupported characters:
+  - Avoid parentheses `()`
+  - Avoid special characters
+  - Use plain names
+  - Use underscores for spaces
+  - Keep names concise but descriptive
+- Data store nodes:
+  - Use `([Store])` syntax
+  - Use `[(Store)]` for alternative style
+  - Use `[[Store]]` for document stores
+  - Use `((Store))` for caches
+- Shape compatibility:
+  - Validate in Mermaid Live Editor
+  - Use supported shapes only
+  - Test rendering in target environment
+  - Document any limitations
+  - Provide fallback options
+
+### 4. File Organization
+- Place diagrams in relevant locations:
+  - Feature-specific directories
+  - Architecture documentation
+  - Feature documentation
+  - Decision records
+- File naming conventions:
+  - Use descriptive names
+  - Include diagram type
+  - Add version if needed
+  - Use consistent format
+  - Follow team conventions
+
+### 5. Maintenance Requirements
+- Update diagrams when:
+  - Architecture changes
+  - New components added
+  - Interfaces modified
+  - Data models change
+  - External integrations change
+  - Security boundaries shift
+  - Performance optimizations made
+  - Monitoring points added
+  - Deployment changes
+  - Team structure changes
+
+### 6. Documentation Standards
+- Include in diagrams:
+  - Clear titles and descriptions
+  - Version information
+  - Last updated date
+  - Author information
+  - Review status
+  - Related documents
+  - Change history
+  - Validation status
+  - Integration points
+  - Dependencies
+
+### 7. Validation Process
+- Validate diagrams using:
+  - Mermaid Live Editor
+  - Local preview tools
+  - CI/CD pipeline
+  - Team review process
+  - Automated checks
+  - Manual verification
+  - Cross-reference validation
+  - Integration testing
+  - Performance testing
+  - Security review
+
+## Examples
+
+### 1. Flowchart Example
+```mermaid
+flowchart TD
+    A[Input] --> B{Validation}
+    B -->|Valid| C[Process]
+    B -->|Invalid| D[Error]
+    C --> E{Check}
+    E -->|Pass| F[Update]
+    E -->|Fail| G[Error]
+    F --> H[Output]
+    G --> D
+```
+
+### 2. Sequence Diagram Example
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Service
+    participant D as DataStore
+    
+    C->>S: Request
+    S->>D: Query
+    D-->>S: Results
+    S-->>C: Response
+```
+
+### 3. Structure Diagram Example
+```mermaid
+classDiagram
+    class Component {
+        +String id
+        +String name
+        +process()
+        +validate()
+    }
+    class SubComponent {
+        +String componentId
+        +String type
+        +handle()
+    }
+    Component "1" --> "1" SubComponent
+```
+
+## Implementation Guidelines
+
+### 1. Diagram Creation Process
+1. Identify diagram type needed
+2. Gather required information
+3. Create initial draft
+4. Validate syntax
+5. Review with team
+6. Update based on feedback
+7. Finalize and commit
+8. Update documentation
+9. Monitor effectiveness
+10. Iterate as needed
+
+### 2. Best Practices
+- Start with simple diagrams
+- Build complexity gradually
+- Use consistent styling
+- Include clear labels
+- Add helpful comments
+- Group related elements
+- Use appropriate shapes
+- Maintain readability
+- Follow conventions
+- Document decisions
+
+### 3. Common Patterns
+- Component interactions
+- Data flow patterns
+- Error handling
+- State transitions
+- Security boundaries
+- Performance paths
+- Monitoring points
+- Deployment flows
+- Integration patterns
+- Team structures
+
+## Review Checklist
+
+### 1. Content
+- [ ] All components included
+- [ ] Interactions documented
+- [ ] Data flows clear
+- [ ] Error paths shown
+- [ ] Security considered
+- [ ] Performance noted
+- [ ] Monitoring included
+- [ ] Deployment shown
+- [ ] Integration points clear
+- [ ] Dependencies documented
+
+### 2. Syntax
+- [ ] Valid Mermaid syntax
+- [ ] Compatible shapes used
+- [ ] Names properly formatted
+- [ ] Data store nodes correct
+- [ ] Comments included
+- [ ] Styling consistent
+- [ ] Labels clear
+- [ ] Groups logical
+- [ ] Flow direction clear
+- [ ] Cross-references valid
+
+### 3. Documentation
+- [ ] Title included
+- [ ] Description clear
+- [ ] Version noted
+- [ ] Date updated
+- [ ] Author listed
+- [ ] Review status
+- [ ] Related docs
+- [ ] Change history
+- [ ] Validation status
+- [ ] Dependencies listed
+
+### 4. Maintenance
+- [ ] Location correct
+- [ ] Naming follows convention
+- [ ] Updates documented
+- [ ] Changes tracked
+- [ ] Reviews scheduled
+- [ ] Validation automated
+- [ ] Integration tested
+- [ ] Performance verified
+- [ ] Security reviewed
+- [ ] Team notified
+
+## Final Notes
+
+- Keep diagrams simple and clear
+- Update when architecture changes
+- Validate before committing
+- Document decisions and changes
+- Review regularly with team
+- Use appropriate diagram types
+- Follow naming conventions
+- Include all necessary details
+- Maintain consistency
+- Consider maintainability
+- Plan for scalability
+- Document exceptions
+- Track effectiveness
+- Solicit feedback
+- Iterate improvements
+- Stay current
+- Validate automatically
+- Integrate effectively
+- Monitor usage
+- Measure impact

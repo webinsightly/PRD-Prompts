@@ -1,0 +1,306 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Rule: Documentation, Comments, and Logging Standards
+
+## Goal
+
+To establish clear, consistent, and maintainable documentation, comments, and logging practices across the codebase, regardless of programming language. These standards ensure code readability, maintainability, and effective debugging.
+
+## Documentation Standards
+
+### 1. Code Documentation
+
+#### Function/Method Documentation
+```language
+/**
+ * Brief description of what the function does
+ * 
+ * @param paramName Description of the parameter
+ * @return Description of the return value
+ * @throws Description of when this error occurs
+ * 
+ * Example:
+ * result = functionName(param)
+ */
+```
+
+#### Class Documentation
+```language
+/**
+ * Brief description of the class
+ * 
+ * Example:
+ * instance = new ClassName()
+ */
+```
+
+#### Interface/Type Documentation
+```language
+/**
+ * Brief description of the interface/type
+ * 
+ * Properties:
+ * - propertyName: Description of the property
+ */
+```
+
+### 2. File Documentation
+
+Every file should start with:
+```language
+/**
+ * File: filename
+ * Purpose: Description of the file's purpose
+ * Author: [Author Name]
+ * Created: [Date]
+ * Last Modified: [Date]
+ */
+```
+
+### 3. Module Documentation
+
+For each module (directory), include a README.md with:
+- Module purpose
+- Key components
+- Usage examples
+- Dependencies
+- Configuration requirements
+
+## Comment Standards
+
+### 1. Inline Comments
+
+- Use language-appropriate comment syntax
+- Keep comments concise and meaningful
+- Comment complex logic, not obvious code
+- Update comments when code changes
+
+### 2. Comment Types
+
+#### TODO Comments
+```language
+# TODO: [Description of what needs to be done]
+# FIXME: [Description of what needs to be fixed]
+# HACK: [Description of the hack and why it's needed]
+```
+
+#### Section Comments
+```language
+# =========================================
+# Section Name
+# =========================================
+```
+
+#### Explanation Comments
+```language
+# Explanation of complex algorithm or business logic
+```
+
+## Logging Standards
+
+### 1. Log Levels
+
+Use appropriate log levels:
+```language
+logger.error("Critical error occurred", error=error, context=context)
+logger.warn("Warning condition", details=details)
+logger.info("General information", data=data)
+logger.debug("Debug information", debugData=debugData)
+logger.trace("Detailed trace information", traceData=traceData)
+```
+
+### 2. Log Structure
+
+Each log should include:
+- Timestamp (automatically added by logger)
+- Log level
+- Message
+- Context object (when relevant)
+- Error stack trace (for errors)
+
+### 3. Log Categories
+
+Use consistent categories:
+```language
+logger.info("API_REQUEST", method=method, path=path, duration=duration)
+logger.info("DATABASE_QUERY", query=query, duration=duration)
+logger.info("CACHE_OPERATION", operation=operation, key=key)
+```
+
+### 4. Sensitive Data
+
+- Never log sensitive information (passwords, tokens, PII)
+- Mask or redact sensitive data
+- Use environment-specific logging levels
+
+## Implementation Guidelines
+
+### 1. Documentation
+
+- Keep documentation up-to-date with code changes
+- Use clear, concise language
+- Include examples where helpful
+- Document all public APIs
+- Use consistent formatting
+
+### 2. Comments
+
+- Write comments that explain "why" not "what"
+- Remove commented-out code
+- Keep comments current with code changes
+- Use comments to explain complex algorithms
+- Document workarounds and technical debt
+
+### 3. Logging
+
+- Log at appropriate levels
+- Include relevant context
+- Use structured logging
+- Implement log rotation
+- Configure appropriate log levels per environment
+
+## Best Practices
+
+### 1. General
+
+- Be consistent across the codebase
+- Review documentation with code reviews
+- Update documentation when APIs change
+- Use automated documentation tools
+- Maintain a documentation style guide
+
+### 2. Performance
+
+- Keep comments concise
+- Use efficient logging patterns
+- Implement log sampling for high-volume logs
+- Configure appropriate log levels
+- Use log aggregation tools
+
+### 3. Security
+
+- Never log sensitive data
+- Implement log sanitization
+- Use appropriate log retention policies
+- Secure log storage
+- Monitor log access
+
+## Tools and Automation
+
+### 1. Documentation
+
+- Use language-appropriate documentation generators
+- Implement automated documentation generation
+- Use markdown linting
+- Set up documentation previews
+- Configure documentation CI/CD
+
+### 2. Comments
+
+- Use comment linting
+- Implement automated comment checking
+- Set up TODO tracking
+- Configure comment formatting
+- Use automated comment cleanup
+
+### 3. Logging
+
+- Use structured logging libraries
+- Implement log aggregation
+- Set up log monitoring
+- Configure log rotation
+- Use log analysis tools
+
+## Review Checklist
+
+Before submitting code, ensure:
+
+1. Documentation
+   - [ ] All public APIs are documented
+   - [ ] Documentation is up-to-date
+   - [ ] Examples are included where needed
+   - [ ] Formatting is consistent
+   - [ ] No sensitive information is exposed
+
+2. Comments
+   - [ ] Complex logic is explained
+   - [ ] Comments are current
+   - [ ] No commented-out code
+   - [ ] TODO comments are tracked
+   - [ ] Comments follow style guide
+
+3. Logging
+   - [ ] Appropriate log levels are used
+   - [ ] Context is included
+   - [ ] No sensitive data is logged
+   - [ ] Logs are structured
+   - [ ] Performance impact is considered
+
+## Examples
+
+### Good Documentation Example
+```language
+/**
+ * Calculates the total price including tax and discounts
+ * 
+ * @param basePrice The base price of the item
+ * @param taxRate The tax rate as a decimal (e.g., 0.1 for 10%)
+ * @param discount The discount amount
+ * @return The final price after tax and discount
+ * @throws If basePrice is negative
+ * 
+ * Example:
+ * finalPrice = calculateTotalPrice(100, 0.1, 10)
+ * # Returns 99 (100 + 10% tax - 10 discount)
+ */
+```
+
+### Good Comment Example
+```language
+# Calculate Fibonacci numbers using dynamic programming
+# to avoid redundant calculations
+def fibonacci(n):
+    # ... implementation
+```
+
+### Good Logging Example
+```language
+logger.info("ORDER_PROCESSED", {
+    "orderId": order.id,
+    "total": order.total,
+    "items": len(order.items),
+    "processingTime": endTime - startTime
+})
+```
+
+## Language-Specific Notes
+
+### JavaScript/TypeScript
+- Use JSDoc/TSDoc for documentation
+- Use `//` for single-line comments
+- Use `/* */` for multi-line comments
+- Consider using ESLint for comment rules
+
+### Java
+- Use Javadoc for documentation
+- Use `//` for single-line comments
+- Use `/* */` for multi-line comments
+- Consider using Checkstyle for comment rules
+
+### Python
+- Use docstrings for documentation
+- Use `#` for comments
+- Follow PEP 257 for docstring conventions
+- Consider using pylint for comment rules
+
+## Final Notes
+
+- Documentation, comments, and logs are living parts of the codebase
+- Keep them up-to-date with code changes
+- Review them during code reviews
+- Use automated tools to maintain consistency
+- Consider the audience when writing documentation
+- Adapt these guidelines to your specific language's conventions while maintaining the core principles

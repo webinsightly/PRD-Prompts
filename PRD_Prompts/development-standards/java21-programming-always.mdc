@@ -1,0 +1,424 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 🎯 Java 21 Programming Standards
+
+## Context
+This rule applies when:
+1. Java 21 is detected in the project configuration:
+   - Maven (pom.xml): 
+     ```xml
+     <java.version>21</java.version>
+     <maven.compiler.source>21</maven.compiler.source>
+     <maven.compiler.target>21</maven.compiler.target>
+     ```
+   - Gradle (build.gradle): 
+     ```groovy
+     sourceCompatibility = JavaVersion.VERSION_21
+     targetCompatibility = JavaVersion.VERSION_21
+     ```
+   - Gradle (build.gradle.kts): 
+     ```kotlin
+     sourceCompatibility = JavaVersion.VERSION_21
+     targetCompatibility = JavaVersion.VERSION_21
+     ```
+   - Gradle (gradle.properties): 
+     ```properties
+     org.gradle.java.home=/path/to/java21
+     ```
+   - SDKMAN (.sdkmanrc): 
+     ```properties
+     java=21.0.2
+     ```
+   - Java Version (.java-version): 
+     ```properties
+     21.0.2
+     ```
+   - Maven JVM Config (.mvn/jvm.config): 
+     ```properties
+     -Djava.version=21
+     ```
+
+2. Java files are using Java 21 features (detected through static analysis):
+   - Virtual Threads: `Thread.startVirtualThread()`, `Executors.newVirtualThreadPerTaskExecutor()`
+   - Pattern Matching: `instanceof` with pattern variables, pattern matching in switch
+   - Records: `record` keyword usage
+   - String Templates: `STR."..."` syntax
+   - Sequenced Collections: `getFirst()`, `getLast()`, `reversed()`
+   - Structured Concurrency: `StructuredTaskScope` usage
+   - Scoped Values: `ScopedValue` usage
+   - Foreign Function API: `MemorySegment`, `Arena` usage
+   - Vector API: `Vector` operations
+
+3. Project is explicitly configured to use Java 21:
+   - IDE settings (e.g., .vscode/settings.json, .idea/misc.xml)
+   - CI/CD configuration (e.g., GitHub Actions, Jenkins)
+   - Docker configuration (e.g., Dockerfile, docker-compose.yml)
+   - Documentation (e.g., README.md, CONTRIBUTING.md)
+
+## Critical Rules
+
+### 1. Virtual Threads Implementation
+- Mandatory Usage:
+  - Use for I/O-bound operations
+  - Use for HTTP request handling
+  - Use for database operations
+  - Use for file operations
+  - Use for network calls
+
+- Implementation Pattern:
+  ```java
+  // Preferred way to create virtual threads
+  try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+      var future = executor.submit(() -> {
+          // I/O-bound task
+          return processData();
+      });
+      var result = future.get();
+  }
+
+  // Alternative using Thread.startVirtualThread
+  Thread.startVirtualThread(() -> {
+      // I/O-bound task
+      processData();
+  });
+  ```
+
+### 2. Pattern Matching Enhancements
+- Mandatory Usage:
+  - Use for instanceof checks
+  - Use for switch expressions
+  - Use for record patterns
+  - Use for type patterns
+  - Use for pattern matching in switch
+
+- Implementation Examples:
+  ```java
+  // Pattern matching for instanceof
+  if (obj instanceof String s) {
+      System.out.println(s.length());
+  }
+
+  // Pattern matching in switch
+  String formatted = switch (obj) {
+      case Integer i -> String.format("int %d", i);
+      case Long l    -> String.format("long %d", l);
+      case Double d  -> String.format("double %f", d);
+      case String s  -> String.format("String %s", s);
+      default        -> obj.toString();
+  };
+
+  // Record patterns
+  record Point(int x, int y) {}
+  if (obj instanceof Point(int x, int y)) {
+      System.out.println(x + ", " + y);
+  }
+  ```
+
+### 3. Record Classes
+- Mandatory Usage:
+  - Use for immutable data classes
+  - Use for DTOs
+  - Use for value objects
+  - Use for configuration objects
+  - Use for API responses
+
+- Implementation Pattern:
+  ```java
+  public record Person(
+      String name,
+      int age,
+      String email
+  ) {
+      // Compact constructor for validation
+      public Person {
+          Objects.requireNonNull(name);
+          Objects.requireNonNull(email);
+      }
+
+      // Custom methods
+      public boolean isAdult() {
+          return age >= 18;
+      }
+  }
+  ```
+
+### 4. Sequenced Collections
+- Mandatory Usage:
+  - Use for ordered collections
+  - Use for first/last element access
+  - Use for reversed views
+  - Use for sequence operations
+  - Use for collection processing
+
+- Implementation Examples:
+  ```java
+  List<String> list = List.of("a", "b", "c");
+  String first = list.getFirst();
+  String last = list.getLast();
+  
+  // Reversed view
+  SequencedCollection<String> reversed = list.reversed();
+  
+  // Add elements
+  SequencedCollection<String> sequence = new ArrayList<>();
+  sequence.addFirst("first");
+  sequence.addLast("last");
+  ```
+
+### 5. String Templates
+- Mandatory Usage:
+  - Use for string interpolation
+  - Use for SQL queries
+  - Use for JSON templates
+  - Use for HTML templates
+  - Use for message formatting
+
+- Implementation Pattern:
+  ```java
+  String name = "John";
+  int age = 30;
+  
+  // String template
+  String message = STR."Hello \{name}, you are \{age} years old";
+  
+  // JSON template
+  String json = STR."""
+      {
+          "name": "\{name}",
+          "age": \{age}
+      }
+      """;
+  ```
+
+### 6. Structured Concurrency
+- Mandatory Usage:
+  - Use for parallel task execution
+  - Use for task coordination
+  - Use for error handling
+  - Use for resource management
+  - Use for task cancellation
+
+- Implementation Pattern:
+  ```java
+  try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+      Future<String> future1 = scope.fork(() -> task1());
+      Future<String> future2 = scope.fork(() -> task2());
+      
+      scope.join();
+      scope.throwIfFailed();
+      
+      String result1 = future1.resultNow();
+      String result2 = future2.resultNow();
+  }
+  ```
+
+### 7. Scoped Values
+- Mandatory Usage:
+  - Use for thread-local data
+  - Use for context propagation
+  - Use for request context
+  - Use for user context
+  - Use for transaction context
+
+- Implementation Pattern:
+  ```java
+  final ScopedValue<String> CONTEXT = ScopedValue.newInstance();
+
+  ScopedValue.where(CONTEXT, "value").run(() -> {
+      String value = CONTEXT.get();
+      // Use value in this scope
+  });
+  ```
+
+### 8. Foreign Function & Memory API
+- Mandatory Usage:
+  - Use for native code integration
+  - Use for memory management
+  - Use for system calls
+  - Use for hardware access
+  - Use for performance optimization
+
+- Implementation Pattern:
+  ```java
+  try (var arena = Arena.ofConfined()) {
+      MemorySegment segment = arena.allocate(100);
+      // Use memory segment
+  }
+  ```
+
+### 9. Vector API
+- Mandatory Usage:
+  - Use for vector operations
+  - Use for SIMD instructions
+  - Use for numerical computing
+  - Use for data processing
+  - Use for performance optimization
+
+- Implementation Pattern:
+  ```java
+  var a = FloatVector.fromArray(SPECIES, array1, 0);
+  var b = FloatVector.fromArray(SPECIES, array2, 0);
+  var c = a.add(b);
+  c.intoArray(result, 0);
+  ```
+
+### 10. Code Organization
+- Package Structure:
+  - Use meaningful package names
+  - Follow domain-driven design
+  - Separate concerns
+  - Use proper layering
+  - Follow clean architecture
+
+- Class Organization:
+  - Use proper class naming
+  - Follow single responsibility
+  - Use proper encapsulation
+  - Follow proper inheritance
+  - Use proper composition
+
+## Review Checklist
+
+### 1. Java Version Verification
+- [ ] Java 21 is properly configured in build files
+  - [ ] Maven/Gradle configuration is correct
+  - [ ] Source and target compatibility are set to 21
+  - [ ] JVM arguments are properly configured
+  - [ ] SDK version is correctly specified
+- [ ] Java 21 features are correctly used
+  - [ ] No Java 21 features in lower version code
+  - [ ] Features are used appropriately
+  - [ ] No deprecated features
+  - [ ] Proper error handling
+- [ ] Build tools are configured for Java 21
+  - [ ] Maven/Gradle version supports Java 21
+  - [ ] Plugins are compatible with Java 21
+  - [ ] Dependencies support Java 21
+  - [ ] Build process is optimized
+- [ ] CI/CD pipeline supports Java 21
+  - [ ] Build environment has Java 21
+  - [ ] Tests run on Java 21
+  - [ ] Deployment targets support Java 21
+  - [ ] Monitoring is configured
+
+### 2. Modern Features
+- [ ] Uses virtual threads
+- [ ] Uses pattern matching
+- [ ] Uses records
+- [ ] Uses sequenced collections
+- [ ] Uses string templates
+- [ ] Uses structured concurrency
+- [ ] Uses scoped values
+- [ ] Uses foreign function API
+- [ ] Uses vector API
+- [ ] Follows modern practices
+
+### 3. Performance
+- [ ] Uses virtual threads for I/O
+- [ ] Uses proper concurrency
+- [ ] Uses proper memory
+- [ ] Uses proper resources
+- [ ] Uses proper optimization
+- [ ] Uses proper monitoring
+- [ ] Uses proper profiling
+- [ ] Uses proper caching
+- [ ] Uses proper scaling
+- [ ] Uses proper testing
+
+### 4. Code Quality
+- [ ] Follows Java 21 features
+- [ ] Uses proper patterns
+- [ ] Follows best practices
+- [ ] Uses proper design
+- [ ] Follows guidelines
+- [ ] Uses proper structure
+- [ ] Follows standards
+- [ ] Uses proper organization
+- [ ] Follows patterns
+- [ ] Uses proper implementation
+
+## Implementation Guidelines
+
+### 1. Project Setup
+```xml
+<!-- Maven Configuration -->
+<properties>
+    <java.version>21</java.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+```
+
+```groovy
+// Gradle Configuration
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += ['--enable-preview']
+}
+```
+
+### 2. IDE Configuration
+```json
+// VS Code settings.json
+{
+    "java.configuration.runtimes": [{
+        "name": "JavaSE-21",
+        "path": "/path/to/java21",
+        "default": true
+    }],
+    "java.jdt.ls.java.home": "/path/to/java21"
+}
+```
+
+### 3. CI/CD Configuration
+```yaml
+# GitHub Actions
+name: Java CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+```
+
+## Final Notes
+
+- Verify Java 21 is properly configured before applying these rules
+- Ensure build tools and CI/CD pipeline support Java 21
+- Check for Java 21 feature usage in code
+- Follow best practices for Java 21 development
+- Use proper patterns and guidelines
+- Follow standards and documentation
+- Use proper testing and validation
+- Follow security best practices
+- Use proper performance optimization
+- Follow proper code organization
+- Monitor Java 21 feature usage
+- Keep dependencies up to date
+- Document Java 21 requirements
+- Test on Java 21 runtime
+- Validate build process
+- Check compatibility
+- Review security updates
+- Optimize performance
+- Maintain documentation
+- Update tooling

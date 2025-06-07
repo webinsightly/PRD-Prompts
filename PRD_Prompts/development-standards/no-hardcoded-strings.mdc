@@ -1,0 +1,236 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# No Hardcoded Strings Standards
+
+## Context
+
+This rule applies to all code that contains string literals, particularly in:
+- Business logic
+- Service layers
+- Controllers
+- Configuration files
+- User-facing content
+- Error messages
+- API endpoints
+- Database queries
+- Log messages
+
+## String Literal Management Standards
+
+### 1. General Rules
+- Avoid hardcoding string literals inside business logic, services, or controllers
+- Externalize values into constants, configuration files, or resource bundles when:
+  - The value may change in the future
+  - The value is business-critical
+  - The value is user-facing (e.g., error messages, labels, prompts)
+  - The value is used in multiple places
+  - The value represents a configuration setting
+
+### 2. Sensitive Data Handling
+- Never hardcode sensitive data:
+  - Credentials (usernames, passwords)
+  - API keys, secrets, tokens
+  - Database connection strings
+  - Encryption keys
+  - OAuth secrets
+  - JWT secrets
+  - Service endpoints
+- Retrieve such values from:
+  - Secured configurations
+  - Environment variables
+  - Secret management services
+  - Configuration management systems
+
+### 3. Repeated String Management
+- For repeated string literals:
+  - **If a string literal is used in more than one place**, define it once as a constant
+  - **Before creating a new constant**:
+    1. Search the project for existing constants with the same or similar value
+    2. If it exists, reuse the existing constant
+    3. If not found, add it to the appropriate **existing constant class**
+    4. If no relevant constants class exists, create a new constants file
+
+### 4. Constant Management
+- Group related constants logically:
+  - By feature/module
+  - By domain
+  - By purpose
+  - Not by random aggregation
+- Use meaningful constant class names:
+  - `AuthConstants`
+  - `ApiPaths`
+  - `DbColumnNames`
+  - `ErrorMessages`
+  - `ValidationMessages`
+- Use proper naming conventions:
+  - `public static final` for constants
+  - UPPER_SNAKE_CASE for constant names
+  - Clear, descriptive names
+  - Consistent naming patterns
+
+### 5. Enum Usage
+- Use enums for:
+  - Status codes
+  - Types
+  - Categories
+  - Fixed sets of values
+  - State representations
+- Enum best practices:
+  - Include display names
+  - Add helper methods
+  - Use proper naming
+  - Document values
+  - Consider serialization
+
+## Implementation Guidelines
+
+### 1. Constant Organization
+```language
+// Good: Organized by domain
+public final class AuthConstants {
+    private AuthConstants() {} // Prevent instantiation
+    
+    // Grouped by purpose
+    public static final class Messages {
+        public static final String LOGIN_SUCCESS = "User logged in successfully";
+        public static final String LOGIN_FAILED = "Invalid credentials";
+    }
+    
+    public static final class Config {
+        public static final String JWT_ISSUER = "hivel.ai";
+        public static final int TOKEN_EXPIRY = 3600;
+    }
+}
+
+// Bad: Unorganized constants
+public final class Constants {
+    public static final String LOGIN_SUCCESS = "User logged in successfully";
+    public static final String DB_URL = "jdbc:postgresql://localhost:5432/mydb";
+    public static final String API_KEY = "secret123";
+}
+```
+
+### 2. Enum Implementation
+```language
+// Good: Well-structured enum
+public enum UserStatus {
+    ACTIVE("Active", "User account is active"),
+    PENDING_VERIFICATION("Pending Verification", "User needs to verify email"),
+    SUSPENDED("Suspended", "User account is suspended");
+
+    private final String displayName;
+    private final String description;
+
+    UserStatus(String displayName, String description) {
+        this.displayName = displayName;
+        this.description = description;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isActive() {
+        return this == ACTIVE;
+    }
+}
+
+// Bad: Simple string constants
+public class UserStatus {
+    public static final String ACTIVE = "Active";
+    public static final String PENDING = "Pending";
+    public static final String SUSPENDED = "Suspended";
+}
+```
+
+### 3. Configuration Management
+```language
+// Good: Externalized configuration
+@Configuration
+public class AppConfig {
+    @Value("${app.jwt.issuer}")
+    private String jwtIssuer;
+    
+    @Value("${app.database.url}")
+    private String databaseUrl;
+    
+    @Value("${app.api.key}")
+    private String apiKey;
+}
+
+// Bad: Hardcoded configuration
+public class AppConfig {
+    private String jwtIssuer = "hivel.ai";
+    private String databaseUrl = "jdbc:postgresql://localhost:5432/mydb";
+    private String apiKey = "secret123";
+}
+```
+
+## Review Checklist
+
+Before submitting code, ensure:
+
+1. String Management
+   - [ ] No hardcoded strings in business logic
+   - [ ] User-facing strings externalized
+   - [ ] Repeated strings defined as constants
+   - [ ] Constants properly organized
+   - [ ] Sensitive data secured
+   - [ ] Configuration externalized
+   - [ ] Enums used appropriately
+   - [ ] Naming conventions followed
+
+2. Constant Organization
+   - [ ] Constants grouped logically
+   - [ ] Clear constant class names
+   - [ ] Proper access modifiers
+   - [ ] Consistent naming
+   - [ ] Documentation present
+   - [ ] No "God" constant classes
+   - [ ] Domain-focused organization
+   - [ ] Easy to maintain
+
+3. Security
+   - [ ] No hardcoded credentials
+   - [ ] No hardcoded API keys
+   - [ ] No hardcoded secrets
+   - [ ] No hardcoded URLs
+   - [ ] Proper configuration
+   - [ ] Environment variables used
+   - [ ] Secrets managed properly
+   - [ ] Security best practices
+
+4. Code Quality
+   - [ ] Constants are meaningful
+   - [ ] Constants are reusable
+   - [ ] Constants are maintainable
+   - [ ] Code is clean
+   - [ ] Documentation is clear
+   - [ ] Organization is logical
+   - [ ] Naming is consistent
+   - [ ] Patterns are followed
+
+## Final Notes
+
+- Constants should be meaningful, reusable, and maintainable
+- Avoid creating "God Constant Classes"
+- Keep constant files modular and clean
+- Use proper organization and naming
+- Follow security best practices
+- Externalize configuration
+- Use enums appropriately
+- Document constants
+- Consider maintainability
+- Think about reusability
+- Plan for changes
+- Consider localization
+- Follow conventions
+- Keep it simple
+- Stay organized

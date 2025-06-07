@@ -1,0 +1,283 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 🚀 Performance & Scalability Review Rule
+
+## Context
+This rule ensures that every new component, interface, or data flow is reviewed for performance and scalability before being marked as complete. It helps prevent bottlenecks, resource issues, and future scaling pain.
+
+## Critical Rules
+
+### 1. Mandatory Review Requirements
+- Every new component must undergo performance review
+- Every new interface must be load tested
+- Every new data flow must be profiled
+- Every new integration must be stress tested
+- Every new feature must be benchmarked
+- Every new system must be capacity tested
+- Every new deployment must be monitored
+- Every new update must be validated
+- Every new configuration must be verified
+- Every new dependency must be assessed
+
+### 2. Testing & Profiling Standards
+- Load Testing:
+  - Simulate expected user load
+  - Test peak capacity
+  - Measure response times
+  - Monitor resource usage
+  - Track error rates
+  - Validate throughput
+  - Check concurrency
+  - Test failover
+  - Verify recovery
+  - Document results
+
+- Profiling:
+  - Resource usage patterns
+  - Memory consumption
+  - I/O operations
+  - Network usage
+  - Cache efficiency
+  - Data store performance
+  - Interface latency
+  - Resource leaks
+  - Bottlenecks
+  - Optimization points
+
+- Resource Checks:
+  - System capacity
+  - Network bandwidth
+  - Storage limits
+  - Memory allocation
+  - Processing utilization
+  - Connection limits
+  - Cache size
+  - Queue depth
+  - Thread management
+  - Connection management
+
+### 3. Bottleneck & Scalability Logging
+- Log all findings:
+  - Performance issues
+  - Scalability concerns
+  - Resource constraints
+  - Bottlenecks
+  - Optimization opportunities
+  - Mitigation strategies
+  - Test results
+  - Monitoring data
+  - Capacity limits
+  - Growth projections
+
+- Mitigation Steps:
+  - Code optimization
+  - Caching strategy
+  - Parallelization
+  - Resource scaling
+  - Load balancing
+  - Data store tuning
+  - Network optimization
+  - Memory management
+  - Connection management
+  - Queue management
+
+### 4. Documentation Requirements
+- Document in Findings & Decisions Log:
+  - Test results
+  - Performance metrics
+  - Scalability data
+  - Resource usage
+  - Bottleneck analysis
+  - Mitigation plans
+  - Optimization steps
+  - Monitoring setup
+  - Alert thresholds
+  - Capacity planning
+
+### 5. Review Process
+- Pre-review:
+  - Define metrics
+  - Set thresholds
+  - Prepare tests
+  - Configure monitoring
+  - Set up logging
+  - Define scenarios
+  - Prepare tools
+  - Set up environment
+  - Define success criteria
+  - Plan review process
+
+- During review:
+  - Run tests
+  - Collect metrics
+  - Monitor resources
+  - Track performance
+  - Identify issues
+  - Document findings
+  - Propose solutions
+  - Validate fixes
+  - Update documentation
+  - Plan improvements
+
+- Post-review:
+  - Document results
+  - Update metrics
+  - Plan optimizations
+  - Schedule follow-up
+  - Update monitoring
+  - Adjust thresholds
+  - Review alerts
+  - Update capacity
+  - Plan scaling
+  - Document lessons
+
+## Examples
+
+### 1. Valid Review Process
+```markdown
+## Performance Review
+- Load Test Results:
+  - Concurrent users: 1000
+  - Response time: 200ms (99th percentile)
+  - Error rate: 0.1%
+  - Resource usage: 60%
+  - Memory usage: 70%
+
+## Scalability Assessment
+- Current Capacity:
+  - Request rate: 5000/second
+  - Concurrent connections: 10000
+  - Data storage: 50GB
+  - Network throughput: 100MB/s
+
+## Optimization Opportunities
+- Implement caching
+- Add connection management
+- Optimize data access
+- Scale horizontally
+- Add load balancing
+```
+
+### 2. Invalid Review Process
+```markdown
+## Performance Review
+- No load testing performed
+- No metrics collected
+- No monitoring setup
+- No optimization done
+- No documentation available
+```
+
+## Implementation Guidelines
+
+### 1. Review Checklist
+- [ ] Load testing completed
+- [ ] Profiling performed
+- [ ] Resource checks done
+- [ ] Bottlenecks identified
+- [ ] Mitigation planned
+- [ ] Documentation updated
+- [ ] Monitoring configured
+- [ ] Alerts set up
+- [ ] Capacity planned
+- [ ] Scaling strategy defined
+
+### 2. Metrics to Track
+- Response time
+- Throughput
+- Error rate
+- Resource usage
+- Memory usage
+- I/O operations
+- Network usage
+- Cache efficiency
+- Data store performance
+- Resource utilization
+
+### 3. Tools to Use
+- Performance testing tools
+- Profiling tools
+- Monitoring tools
+- Logging tools
+- Analysis tools
+- Visualization tools
+- Alerting tools
+- Capacity planning tools
+- Resource monitoring tools
+- Testing frameworks
+
+## Review Checklist
+
+### 1. Performance
+- [ ] Load testing completed
+- [ ] Profiling performed
+- [ ] Resource checks done
+- [ ] Bottlenecks identified
+- [ ] Optimization planned
+- [ ] Monitoring configured
+- [ ] Alerts set up
+- [ ] Metrics defined
+- [ ] Thresholds set
+- [ ] Baseline established
+
+### 2. Scalability
+- [ ] Capacity tested
+- [ ] Growth projected
+- [ ] Scaling strategy defined
+- [ ] Resources planned
+- [ ] Limits identified
+- [ ] Constraints documented
+- [ ] Solutions proposed
+- [ ] Implementation planned
+- [ ] Monitoring configured
+- [ ] Alerts set up
+
+### 3. Documentation
+- [ ] Test results documented
+- [ ] Metrics recorded
+- [ ] Findings logged
+- [ ] Decisions documented
+- [ ] Plans updated
+- [ ] Monitoring configured
+- [ ] Alerts documented
+- [ ] Capacity planned
+- [ ] Scaling documented
+- [ ] Lessons learned
+
+### 4. Monitoring
+- [ ] Metrics defined
+- [ ] Thresholds set
+- [ ] Alerts configured
+- [ ] Logging set up
+- [ ] Dashboards created
+- [ ] Reports scheduled
+- [ ] Notifications set
+- [ ] Escalation defined
+- [ ] Response planned
+- [ ] Review scheduled
+
+## Final Notes
+
+- Always review performance
+- Test before completion
+- Document all findings
+- Plan for scaling
+- Monitor continuously
+- Optimize proactively
+- Track metrics
+- Set thresholds
+- Configure alerts
+- Review regularly
+- Update documentation
+- Plan capacity
+- Monitor growth
+- Track changes
+- Validate improvements
+- Document decisions
+- Share knowledge
+- Learn from issues
+- Plan for scale
+- Stay proactive

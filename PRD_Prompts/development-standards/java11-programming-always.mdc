@@ -1,0 +1,252 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Java 11 Programming Standards
+
+## Context
+
+This rule defines standards and best practices for Java 11 development, ensuring consistent, maintainable, and efficient code.
+
+## Standards
+
+### 1. Language Features
+- Use Java 11 features appropriately:
+  - Local Variable Type Inference (var)
+  - HTTP Client API
+  - String methods (isBlank, strip, lines)
+  - Collection factory methods
+  - Optional improvements
+  - Files methods (readString, writeString)
+
+### 2. Code Structure
+- Follow clean code principles
+- Use meaningful variable names
+- Keep methods small and focused
+- Follow SOLID principles
+- Use proper package structure
+
+### 3. Performance
+- Use appropriate data structures
+- Implement efficient algorithms
+- Handle resources properly
+- Use parallel streams when beneficial
+- Optimize memory usage
+
+## Implementation Guidelines
+
+### 1. Variable Declaration
+```java
+// Before
+String message = "Hello";
+List<String> names = new ArrayList<>();
+
+// After (Java 11)
+var message = "Hello";
+var names = new ArrayList<String>();
+```
+
+### 2. String Operations
+```java
+// Before
+if (str.trim().isEmpty()) {
+    // handle empty
+}
+
+// After (Java 11)
+if (str.isBlank()) {
+    // handle empty
+}
+
+// Before
+String[] lines = text.split("\n");
+
+// After (Java 11)
+List<String> lines = text.lines().collect(Collectors.toList());
+```
+
+### 3. HTTP Client
+```java
+// Before (Java 8)
+HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+connection.setRequestMethod("GET");
+try (BufferedReader reader = new BufferedReader(
+        new InputStreamReader(connection.getInputStream()))) {
+    String response = reader.lines().collect(Collectors.joining());
+}
+
+// After (Java 11)
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com"))
+    .GET()
+    .build();
+HttpResponse<String> response = client.send(request, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+### 4. Collection Factory Methods
+```java
+// Before
+List<String> list = new ArrayList<>();
+list.add("one");
+list.add("two");
+list.add("three");
+
+// After (Java 11)
+List<String> list = List.of("one", "two", "three");
+Set<String> set = Set.of("one", "two", "three");
+Map<String, Integer> map = Map.of("one", 1, "two", 2);
+```
+
+### 5. File Operations
+```java
+// Before
+String content = new String(Files.readAllBytes(path));
+
+// After (Java 11)
+String content = Files.readString(path);
+Files.writeString(path, content);
+```
+
+## Best Practices
+
+### 1. Type Inference
+- Use `var` for local variables when type is obvious
+- Avoid `var` when type is not clear from context
+- Don't use `var` for method parameters or return types
+
+### 2. HTTP Client
+- Use HttpClient for all HTTP operations
+- Implement proper error handling
+- Use appropriate timeouts
+- Handle responses efficiently
+
+### 3. String Operations
+- Use new String methods for better readability
+- Prefer `isBlank()` over `trim().isEmpty()`
+- Use `lines()` for line-based operations
+- Use `strip()` for Unicode-aware trimming
+
+### 4. Collections
+- Use factory methods for immutable collections
+- Prefer List.of() over Arrays.asList()
+- Use Set.of() for unique elements
+- Use Map.of() for small maps
+
+### 5. File Operations
+- Use new Files methods for simple operations
+- Handle exceptions properly
+- Use appropriate character encoding
+- Close resources properly
+
+## Examples
+
+### 1. Complete Class Example
+```java
+public class UserService {
+    private final HttpClient httpClient;
+    
+    public UserService() {
+        this.httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+    }
+    
+    public User getUser(String id) {
+        var request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.example.com/users/" + id))
+            .GET()
+            .build();
+            
+        try {
+            var response = httpClient.send(request, 
+                HttpResponse.BodyHandlers.ofString());
+            return parseUser(response.body());
+        } catch (Exception e) {
+            throw new UserServiceException("Failed to get user", e);
+        }
+    }
+    
+    private User parseUser(String json) {
+        // Implementation
+    }
+}
+```
+
+### 2. Stream Processing
+```java
+public List<String> processLines(String content) {
+    return content.lines()
+        .filter(line -> !line.isBlank())
+        .map(String::strip)
+        .collect(Collectors.toList());
+}
+```
+
+### 3. Resource Handling
+```java
+public String readConfig(String path) {
+    try {
+        return Files.readString(Path.of(path));
+    } catch (IOException e) {
+        throw new ConfigException("Failed to read config", e);
+    }
+}
+```
+
+## Checklist
+
+### 1. Code Review
+- [ ] Using appropriate Java 11 features
+- [ ] Following clean code principles
+- [ ] Proper error handling
+- [ ] Resource management
+- [ ] Performance considerations
+
+### 2. Testing
+- [ ] Unit tests for new features
+- [ ] Integration tests for HTTP client
+- [ ] Performance tests
+- [ ] Error handling tests
+
+### 3. Documentation
+- [ ] JavaDoc for public APIs
+- [ ] Usage examples
+- [ ] Performance considerations
+- [ ] Error handling guidelines
+
+## Validation
+
+### 1. Automated Checks
+- Use Checkstyle with Java 11 rules
+- Configure SonarQube for Java 11
+- Set up CI/CD pipeline
+- Run automated tests
+
+### 2. Manual Review
+- Code review checklist
+- Performance review
+- Security review
+- Documentation review
+
+## Integration
+
+### 1. Build Tools
+- Maven configuration
+- Gradle configuration
+- Dependency management
+- Plugin setup
+
+### 2. IDE Setup
+- Java 11 SDK configuration
+- Code style settings
+- Inspection profiles
+- Run configurations
+
+### 3. CI/CD
+- Build pipeline
+- Test automation
+- Code quality checks
+- Deployment process

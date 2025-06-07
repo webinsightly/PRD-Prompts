@@ -1,0 +1,330 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Rule Coverage Validator
+
+## Context
+
+This meta rule exists to ensure all rules in the codebase are:
+- Properly configured
+- Well-scoped
+- Consistently applied
+- Effectively documented
+- Maintained and updated
+- Automatically validated
+- Properly integrated
+
+## Rule Configuration Standards
+
+### 1. Rule Metadata
+- Every rule must have:
+  - Clear description
+  - Appropriate globs
+  - Correct alwaysApply setting
+  - Proper categorization
+  - Version information
+  - Last updated date
+  - Validation status
+  - Integration status
+
+### 2. Rule Scope
+- Rules should be:
+  - Focused on specific concerns
+  - Non-overlapping with other rules
+  - Clear in their application
+  - Easy to understand
+  - Practical to implement
+  - Automatically enforceable
+  - Measurably effective
+
+### 3. Rule Application
+- Rules should specify:
+  - When they apply
+  - How they apply
+  - What they enforce
+  - How to comply
+  - Exceptions if any
+  - Validation methods
+  - Integration points
+
+## Implementation Guidelines
+
+### 1. Rule Structure
+```language
+---
+description: Clear, concise description of the rule's purpose
+globs: 
+  - "*.java"
+  - "*.ts"
+  - "*.js"
+alwaysApply: true/false
+version: "1.0.0"
+lastUpdated: "2024-03-20"
+validation: {
+  automated: true,
+  tools: ["eslint", "sonar"],
+  coverage: 95
+}
+integration: {
+  ci: true,
+  preCommit: true,
+  ide: true
+}
+---
+
+# Rule Name
+
+## Context
+[Rule context and scope]
+
+## Standards
+[Rule standards and requirements]
+
+## Implementation
+[Implementation guidelines]
+
+## Examples
+[Good and bad examples]
+
+## Checklist
+[Compliance checklist]
+
+## Validation
+[Validation methods and tools]
+
+## Integration
+[Integration points and methods]
+```
+
+### 2. Rule Categories
+```language
+// Rule Categories with Validation Requirements
+const RULE_CATEGORIES = {
+    CODE_STYLE: {
+        name: "Code Style",
+        validation: ["eslint", "prettier"],
+        coverage: 90
+    },
+    SECURITY: {
+        name: "Security",
+        validation: ["sonar", "snyk"],
+        coverage: 100
+    },
+    PERFORMANCE: {
+        name: "Performance",
+        validation: ["lighthouse", "webpagetest"],
+        coverage: 85
+    },
+    MAINTAINABILITY: {
+        name: "Maintainability",
+        validation: ["sonar", "codeclimate"],
+        coverage: 80
+    },
+    DOCUMENTATION: {
+        name: "Documentation",
+        validation: ["jsdoc", "typedoc"],
+        coverage: 95
+    },
+    TESTING: {
+        name: "Testing",
+        validation: ["jest", "coverage"],
+        coverage: 90
+    },
+    ARCHITECTURE: {
+        name: "Architecture",
+        validation: ["archunit", "dependency-cruiser"],
+        coverage: 85
+    },
+    META: {
+        name: "Meta Rules",
+        validation: ["custom"],
+        coverage: 100
+    }
+};
+```
+
+### 3. Rule Dependencies
+```language
+// Rule Dependencies with Validation
+const RULE_DEPENDENCIES = {
+    "no-hardcoded-strings": {
+        dependencies: ["documentation-and-comments-and-logs"],
+        validation: ["eslint-plugin-no-hardcoded-strings"],
+        coverage: 95
+    },
+    "functional-coding-practices": {
+        dependencies: ["documentation-and-comments-and-logs"],
+        validation: ["eslint-plugin-functional"],
+        coverage: 90
+    },
+    "global-ai-communication-behavior": {
+        dependencies: ["documentation-and-comments-and-logs"],
+        validation: ["custom"],
+        coverage: 100
+    }
+};
+```
+
+### 4. Rule Validation
+```language
+// Rule Validation Configuration
+const RULE_VALIDATION = {
+    automated: {
+        tools: ["eslint", "sonar", "prettier"],
+        coverage: 90,
+        frequency: "pre-commit"
+    },
+    manual: {
+        checklist: true,
+        review: true,
+        frequency: "monthly"
+    },
+    integration: {
+        ci: true,
+        preCommit: true,
+        ide: true
+    }
+};
+```
+
+## Review Checklist
+
+Before submitting a rule, ensure:
+
+1. Rule Configuration
+   - [ ] Description is clear and meaningful
+   - [ ] Globs are properly specified
+   - [ ] alwaysApply is correctly set
+   - [ ] Version is specified
+   - [ ] Last updated is current
+   - [ ] Category is assigned
+   - [ ] Dependencies are listed
+   - [ ] Scope is defined
+   - [ ] Validation is configured
+   - [ ] Integration is set up
+
+2. Rule Content
+   - [ ] Context is provided
+   - [ ] Standards are clear
+   - [ ] Examples are included
+   - [ ] Checklist is complete
+   - [ ] Implementation is detailed
+   - [ ] Exceptions are noted
+   - [ ] References are included
+   - [ ] Best practices are listed
+   - [ ] Validation methods are defined
+   - [ ] Integration points are specified
+
+3. Rule Quality
+   - [ ] No conflicts with other rules
+   - [ ] Clear and concise
+   - [ ] Easy to understand
+   - [ ] Practical to implement
+   - [ ] Well-documented
+   - [ ] Properly formatted
+   - [ ] Consistently structured
+   - [ ] Up-to-date
+   - [ ] Automatically validatable
+   - [ ] Integration ready
+
+4. Rule Maintenance
+   - [ ] Regular review scheduled
+   - [ ] Update process defined
+   - [ ] Version control used
+   - [ ] Change log maintained
+   - [ ] Feedback mechanism
+   - [ ] Review process
+   - [ ] Approval workflow
+   - [ ] Documentation updated
+   - [ ] Validation status tracked
+   - [ ] Integration status monitored
+
+## Rule Index
+
+### Active Rules
+1. `no-hardcoded-strings.mdc`
+   - Category: Code Style
+   - Dependencies: documentation-and-comments-and-logs
+   - Status: Active
+   - Validation: Automated (eslint)
+   - Integration: CI, Pre-commit
+
+2. `functional-coding-practices.mdc`
+   - Category: Code Style
+   - Dependencies: documentation-and-comments-and-logs
+   - Status: Active
+   - Validation: Automated (eslint)
+   - Integration: CI, Pre-commit
+
+3. `global-ai-communication-behavior-always.mdc`
+   - Category: Meta
+   - Dependencies: documentation-and-comments-and-logs
+   - Status: Active
+   - Validation: Manual
+   - Integration: CI
+
+4. `documentation-and-comments-and-logs.mdc`
+   - Category: Documentation
+   - Dependencies: None
+   - Status: Active
+   - Validation: Automated (jsdoc)
+   - Integration: CI, Pre-commit
+
+### Rule Statistics
+- Total Rules: 4
+- Active Rules: 4
+- Categories: 3
+- Dependencies: 3
+- Always Apply: 2
+- Glob Specific: 2
+- Automated Validation: 3
+- Manual Validation: 1
+- CI Integrated: 4
+- Pre-commit Hooks: 3
+
+## Validation Status
+
+### Automated Validation
+- ESLint Rules: 2
+- JSDoc Rules: 1
+- Custom Rules: 1
+- Coverage: 90%
+
+### Manual Validation
+- Monthly Reviews: 4
+- Documentation: 4
+- Examples: 4
+- Checklists: 4
+
+## Integration Status
+
+### CI Integration
+- GitHub Actions: 4
+- Pre-commit Hooks: 3
+- IDE Plugins: 3
+- Custom Tools: 1
+
+## Final Notes
+
+- Keep rules focused and specific
+- Maintain clear documentation
+- Regular review and updates
+- Track rule effectiveness
+- Monitor rule conflicts
+- Update dependencies
+- Version control rules
+- Document changes
+- Track rule usage
+- Measure rule impact
+- Solicit feedback
+- Improve continuously
+- Stay organized
+- Keep it simple
+- Stay current
+- Validate automatically
+- Integrate effectively
+- Monitor compliance
+- Track coverage
+- Measure success

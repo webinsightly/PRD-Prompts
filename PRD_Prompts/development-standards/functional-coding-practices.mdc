@@ -1,0 +1,696 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Functional Programming Practices
+
+> **IMPORTANT**: When applying these functional programming practices, you MUST also follow the documentation-and-comments-and-logs.mdc rules for all documentation, comments, and logging.
+
+## Core Principles
+
+### 1. Pure Functions
+- Functions should always return the same output for the same input
+- No side effects (no modifying external state)
+- No reliance on external state
+- Easy to test and reason about
+
+```language
+// Good
+function calculateTotal(items) {
+    return items.reduce((sum, item) => sum + item.price, 0);
+}
+
+// Bad
+let total = 0;
+function calculateTotal(items) {
+    for (const item of items) {
+        total += item.price;  // Side effect: modifies external state
+    }
+    return total;
+}
+```
+
+### 2. Immutability
+- Data should be immutable by default
+- Create new objects instead of modifying existing ones
+- Use immutable data structures where possible
+- Avoid mutable state
+
+```language
+// Good
+function updateUser(user, newName) {
+    return { ...user, name: newName };  // Create new object
+}
+
+// Bad
+function updateUser(user, newName) {
+    user.name = newName;  // Mutates existing object
+    return user;
+}
+```
+
+### 3. Function Composition
+- Break down complex operations into smaller functions
+- Compose functions to build more complex operations
+- Use higher-order functions
+- Chain operations together
+
+```language
+// Good
+function processData(data) {
+    return pipe(
+        data,
+        cleanInput,
+        validateData,
+        transformData,
+        formatOutput
+    );
+}
+
+// Bad
+function processData(data) {
+    // All operations in one function
+    const cleaned = cleanInput(data);
+    const validated = validateData(cleaned);
+    const transformed = transformData(validated);
+    return formatOutput(transformed);
+}
+```
+
+### 4. Declarative Programming
+- Focus on what to do, not how to do it
+- Use built-in functions and operators
+- Avoid explicit loops where possible
+- Use functional operations (map, filter, reduce)
+
+```language
+// Good
+function getActiveUsers(users) {
+    return users.filter(user => user.isActive);
+}
+
+// Bad
+function getActiveUsers(users) {
+    const activeUsers = [];
+    for (const user of users) {
+        if (user.isActive) {
+            activeUsers.push(user);
+        }
+    }
+    return activeUsers;
+}
+```
+
+## Best Practices
+
+### 1. Function Design
+
+#### Single Responsibility
+- Each function should do one thing
+- Keep functions small and focused
+- Use descriptive names
+- Avoid mixing concerns
+
+```language
+// Good
+function calculateTax(price, rate) {
+    return price * rate;
+}
+
+function calculateTotal(price, tax) {
+    return price + tax;
+}
+
+// Bad
+function processOrder(price, rate) {
+    const tax = price * rate;
+    const total = price + tax;
+    return total;
+}
+```
+
+#### Function Purity
+- Avoid side effects
+- Don't modify input parameters
+- Don't rely on external state
+- Make dependencies explicit
+
+```language
+// Good
+function formatName(first, last) {
+    return `${first} ${last}`.trim();
+}
+
+// Bad
+function formatName(first, last) {
+    global.formattedNames.push(`${first} ${last}`.trim());  // Side effect
+    return `${first} ${last}`.trim();
+}
+```
+
+### 2. Data Handling
+
+#### Immutable Data Structures
+- Use immutable collections
+- Create new objects instead of modifying
+- Use copy-on-write patterns
+- Avoid mutable state
+
+```language
+// Good
+function updateUserList(users, newUser) {
+    return [...users, newUser];  // Create new array
+}
+
+// Bad
+function updateUserList(users, newUser) {
+    users.push(newUser);  // Mutates array
+    return users;
+}
+```
+
+#### Data Transformation
+- Use map, filter, reduce
+- Avoid imperative loops
+- Chain operations
+- Keep transformations pure
+
+```language
+// Good
+function processItems(items) {
+    return items
+        .filter(item => item.isValid)
+        .map(item => item.transform())
+        .reduce((sum, item) => sum + item.value, 0);
+}
+
+// Bad
+function processItems(items) {
+    let total = 0;
+    for (const item of items) {
+        if (item.isValid) {
+            const transformed = item.transform();
+            total += transformed.value;
+        }
+    }
+    return total;
+}
+```
+
+### 3. Error Handling
+
+#### Functional Error Handling
+- Use Either/Option types
+- Avoid exceptions for control flow
+- Handle errors explicitly
+- Keep error handling pure
+
+```language
+// Good
+function divide(a, b) {
+    return b !== 0 
+        ? Either.right(a / b)
+        : Either.left("Division by zero");
+}
+
+// Bad
+function divide(a, b) {
+    try {
+        return a / b;
+    } catch (error) {
+        return null;
+    }
+}
+```
+
+#### Error Propagation
+- Use monadic operations
+- Chain error handling
+- Keep error handling pure
+- Make error cases explicit
+
+```language
+// Good
+function processData(data) {
+    return Either.right(data)
+        .map(validate)
+        .map(transform)
+        .map(save);
+}
+
+// Bad
+function processData(data) {
+    try {
+        const validated = validate(data);
+        const transformed = transform(validated);
+        return save(transformed);
+    } catch (error) {
+        return null;
+    }
+}
+```
+
+### 4. Testing
+
+#### Pure Function Testing
+- Test input/output pairs
+- No need for setup/teardown
+- Easy to test edge cases
+- Test pure functions in isolation
+
+```language
+// Good
+function testCalculateTotal() {
+    const items = [
+        { price: 10 },
+        { price: 20 }
+    ];
+    assert(calculateTotal(items) === 30);
+}
+
+// Bad
+function testCalculateTotal() {
+    global.total = 0;  // Setup required
+    const items = [
+        { price: 10 },
+        { price: 20 }
+    ];
+    assert(calculateTotal(items) === 30);
+}
+```
+
+#### Property-Based Testing
+- Test properties, not examples
+- Use random inputs
+- Verify invariants
+- Test edge cases automatically
+
+```language
+// Good
+@given(arrays(integers()))
+function testSumCommutative(numbers) {
+    assert(sum(numbers) === sum(reverse(numbers)));
+}
+
+// Bad
+function testSum() {
+    assert(sum([1, 2, 3]) === 6);  // Only tests one case
+}
+```
+
+## Implementation Guidelines
+
+### 1. Code Organization
+
+#### Module Structure
+- Group related functions
+- Keep modules focused
+- Use clear exports
+- Maintain separation of concerns
+
+```language
+// Good
+// mathUtils.js
+export function add(a, b) { return a + b; }
+export function subtract(a, b) { return a - b; }
+export function multiply(a, b) { return a * b; }
+
+// Bad
+// utils.js
+export function add(a, b) { return a + b; }
+export function formatName(name) { return name.trim(); }
+export function saveToDb(data) { return db.save(data); }
+```
+
+#### Function Composition
+- Use composition over inheritance
+- Keep functions small
+- Use higher-order functions
+- Chain operations
+
+```language
+// Good
+function processUser(user) {
+    return pipe(
+        user,
+        validateUser,
+        enrichUserData,
+        formatUserOutput
+    );
+}
+
+// Bad
+class UserProcessor {
+    process(user) {
+        this.validate(user);
+        this.enrich(user);
+        return this.format(user);
+    }
+}
+```
+
+### 2. Performance
+
+#### Lazy Evaluation
+- Use generators
+- Avoid unnecessary computation
+- Chain operations efficiently
+- Process data on demand
+
+```language
+// Good
+function* processLargeDataset(items) {
+    for (const item of items) {
+        if (item.isValid) {
+            const transformed = transform(item);
+            if (transformed.isReady) {
+                yield transformed;
+            }
+        }
+    }
+}
+
+// Bad
+function processLargeDataset(items) {
+    const validItems = items.filter(item => item.isValid);
+    const transformed = validItems.map(transform);
+    return transformed.filter(item => item.isReady);
+}
+```
+
+#### Memoization
+- Cache expensive computations
+- Keep memoization pure
+- Use appropriate cache keys
+- Consider memory usage
+
+```language
+// Good
+const memoize = (fn) => {
+    const cache = new Map();
+    return (arg) => {
+        if (!cache.has(arg)) {
+            cache.set(arg, fn(arg));
+        }
+        return cache.get(arg);
+    };
+};
+
+// Bad
+const cache = {};
+function fibonacci(n) {
+    if (n in cache) return cache[n];
+    if (n < 2) return n;
+    const result = fibonacci(n-1) + fibonacci(n-2);
+    cache[n] = result;
+    return result;
+}
+```
+
+## Documentation Integration
+
+### 1. Function Documentation
+- Document all functions with clear purpose and behavior
+- Include input/output contracts
+- Document side effects (if any)
+- Document error cases and handling
+
+```language
+/**
+ * Calculates the total price of items with tax.
+ * 
+ * @param {Array<Item>} items - List of items to calculate total for
+ * @param {number} taxRate - Tax rate to apply (0-1)
+ * @returns {number} Total price including tax
+ * @throws {Error} If tax rate is invalid
+ */
+function calculateTotalWithTax(items, taxRate) {
+    // Implementation
+}
+```
+
+### 2. Module Documentation
+- Document module purpose and responsibilities
+- List exported functions and their purposes
+- Document module-level invariants
+- Include usage examples
+
+```language
+/**
+ * Math utilities for financial calculations.
+ * 
+ * This module provides pure functions for common financial calculations.
+ * All functions are immutable and have no side effects.
+ * 
+ * @module mathUtils
+ */
+
+/**
+ * Adds two numbers with proper decimal handling.
+ * @param {number} a - First number
+ * @param {number} b - Second number
+ * @returns {number} Sum of a and b
+ */
+export function add(a, b) {
+    return a + b;
+}
+```
+
+### 3. Type Documentation
+- Document custom types and their purposes
+- Include type constraints and invariants
+- Document type relationships
+- Include usage examples
+
+```language
+/**
+ * Represents a financial transaction.
+ * 
+ * @typedef {Object} Transaction
+ * @property {string} id - Unique transaction identifier
+ * @property {number} amount - Transaction amount
+ * @property {string} currency - Currency code
+ * @property {Date} timestamp - Transaction timestamp
+ */
+
+/**
+ * Creates a new transaction.
+ * 
+ * @param {string} id - Transaction ID
+ * @param {number} amount - Transaction amount
+ * @param {string} currency - Currency code
+ * @returns {Transaction} New transaction object
+ */
+function createTransaction(id, amount, currency) {
+    return {
+        id,
+        amount,
+        currency,
+        timestamp: new Date()
+    };
+}
+```
+
+## Comment Standards
+
+### 1. Implementation Comments
+- Comment complex algorithms
+- Explain non-obvious decisions
+- Document performance considerations
+- Include references to algorithms or patterns
+
+```language
+// Using Fisher-Yates shuffle for unbiased random selection
+// Time complexity: O(n), Space complexity: O(1)
+function shuffleArray(array) {
+    // Implementation
+}
+
+// Using memoization to cache expensive calculations
+// Cache size limited to prevent memory issues
+const memoizedCalculation = memoize(expensiveCalculation, 1000);
+```
+
+### 2. Section Comments
+- Group related functions
+- Document functional patterns
+- Explain composition chains
+- Document transformation pipelines
+
+```language
+// Data transformation pipeline
+// 1. Filter invalid items
+// 2. Transform to required format
+// 3. Calculate aggregates
+function processData(items) {
+    return pipe(
+        items,
+        filterValidItems,    // Step 1
+        transformItems,      // Step 2
+        calculateTotals     // Step 3
+    );
+}
+```
+
+## Logging Standards
+
+### 1. Function Logging
+- Log function entry/exit
+- Log important state changes
+- Log error conditions
+- Use appropriate log levels
+
+```language
+function processTransaction(transaction) {
+    logger.debug('Processing transaction', { id: transaction.id });
+    
+    try {
+        const result = validateAndProcess(transaction);
+        logger.info('Transaction processed successfully', { 
+            id: transaction.id,
+            amount: transaction.amount 
+        });
+        return result;
+    } catch (error) {
+        logger.error('Transaction processing failed', {
+            id: transaction.id,
+            error: error.message
+        });
+        throw error;
+    }
+}
+```
+
+### 2. Performance Logging
+- Log execution time
+- Log memory usage
+- Log cache hits/misses
+- Log resource utilization
+
+```language
+function expensiveOperation(data) {
+    const startTime = performance.now();
+    logger.debug('Starting expensive operation', { 
+        dataSize: data.length 
+    });
+    
+    const result = processData(data);
+    
+    const duration = performance.now() - startTime;
+    logger.info('Operation completed', {
+        duration,
+        resultSize: result.length
+    });
+    
+    return result;
+}
+```
+
+## Review Checklist
+
+Before submitting code, ensure:
+
+1. Function Purity
+   - [ ] No side effects
+   - [ ] Same output for same input
+   - [ ] No external state dependency
+   - [ ] Dependencies are explicit
+   - [ ] Function documentation complete
+   - [ ] Error cases documented
+   - [ ] Logging points identified
+
+2. Immutability
+   - [ ] No direct mutations
+   - [ ] New objects created instead of modified
+   - [ ] Immutable data structures used
+   - [ ] No mutable state
+   - [ ] Immutability documented
+   - [ ] State changes logged
+
+3. Function Design
+   - [ ] Single responsibility
+   - [ ] Small and focused
+   - [ ] Clear naming
+   - [ ] Pure functions
+   - [ ] Function documented
+   - [ ] Parameters documented
+   - [ ] Return value documented
+
+4. Error Handling
+   - [ ] Functional error handling
+   - [ ] No exceptions for control flow
+   - [ ] Explicit error cases
+   - [ ] Error propagation
+   - [ ] Error cases documented
+   - [ ] Error logging implemented
+   - [ ] Error recovery documented
+
+5. Testing
+   - [ ] Pure function tests
+   - [ ] Property-based tests
+   - [ ] Edge cases covered
+   - [ ] No side effects in tests
+   - [ ] Test documentation complete
+   - [ ] Test cases documented
+   - [ ] Test coverage logged
+
+6. Documentation
+   - [ ] Function documentation complete
+   - [ ] Module documentation complete
+   - [ ] Type documentation complete
+   - [ ] Usage examples included
+   - [ ] Side effects documented
+   - [ ] Dependencies documented
+   - [ ] Performance considerations documented
+
+7. Comments
+   - [ ] Complex logic commented
+   - [ ] Non-obvious decisions explained
+   - [ ] Algorithm references included
+   - [ ] Performance considerations noted
+   - [ ] Section comments present
+   - [ ] Transformation steps documented
+   - [ ] Pattern usage explained
+
+8. Logging
+   - [ ] Function entry/exit logged
+   - [ ] State changes logged
+   - [ ] Error conditions logged
+   - [ ] Performance metrics logged
+   - [ ] Log levels appropriate
+   - [ ] Log context complete
+   - [ ] Sensitive data excluded
+
+## Final Notes
+
+- Keep functions pure and small
+- Prefer composition over inheritance
+- Use immutable data structures
+- Handle errors functionally
+- Test thoroughly
+- Consider performance implications
+- Document function contracts
+- Use appropriate abstractions
+- Keep code declarative
+- Avoid side effects
+- Make dependencies explicit
+- Use functional patterns
+- Consider memory usage
+- Keep transformations pure
+- Use appropriate tools
+- Follow documentation standards
+- Maintain clear comments
+- Implement proper logging
+- Document all changes
+- Log all important events
+- Comment complex logic
+- Document error handling
+- Log performance metrics
+- Document side effects
+- Log state changes
+- Document dependencies
+- Log resource usage
+- Comment algorithms
+- Document patterns
+- Log transformations

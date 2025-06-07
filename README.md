@@ -124,3 +124,104 @@ Please feel free to:
 ---
 
 Happy AI-assisted developing!
+
+# PRD Prompts - Rule Categories and Documentation
+
+This repository contains a collection of rules and guidelines for Product Requirements Documentation (PRD) and development practices. The rules are organized into several categories for better navigation and understanding.
+
+## Categories
+
+### 1. Development Standards
+- **Java 21 Programming** (`java21-programming-always.mdc`)
+  - Standards and best practices for Java 21 development
+  - Modern Java features and patterns
+
+- **Functional Programming** (`functional-coding-practices.mdc`)
+  - Functional programming principles
+  - Immutable data structures
+  - Pure functions and side effects
+
+- **Code Quality** (`no-hardcoded-strings.mdc`)
+  - String management
+  - Internationalization
+  - Configuration handling
+
+### 2. Documentation and Communication
+- **Documentation Standards** (`documentation-and-comments-and-logs.mdc`)
+  - Code documentation
+  - Commenting guidelines
+  - Logging practices
+
+- **AI Communication** (`global-ai-communication-behavior-always.mdc`)
+  - AI interaction guidelines
+  - Communication protocols
+  - Response formatting
+
+- **Emoji Usage** (`emoji-communication-always.mdc`)
+  - Emoji guidelines
+  - Communication enhancement
+  - Visual feedback
+
+### 3. Process and Workflow
+- **PRD Creation** (`create-prd.mdc`)
+  - Product requirements documentation
+  - Feature specification
+  - User story mapping
+
+- **Task Management** (`generate-tasks.mdc`, `process-task-list.mdc`)
+  - Task generation
+  - Task processing
+  - Workflow management
+
+### 4. Performance and Architecture
+- **Performance Review** (`performance-scalability-review.mdc`)
+  - Performance optimization
+  - Scalability considerations
+  - Resource management
+
+- **Logic Visualization** (`visualize-logic-and-flow.mdc`)
+  - Flow diagrams
+  - Logic mapping
+  - System architecture
+
+### 5. Meta Rules
+- **Rule Index** (`rule-index.mdc`)
+  - Rule validation
+  - Rule configuration
+  - Rule maintenance
+
+- **Coding Instructions** (`coding-instructions.mdc`)
+  - General coding guidelines
+  - Development standards
+  - Best practices
+
+## Usage
+
+Each rule file (`.mdc`) contains:
+- Clear description of the rule
+- Implementation guidelines
+- Examples and best practices
+- Validation requirements
+- Integration points
+
+## Contributing
+
+When adding new rules:
+1. Follow the rule structure template
+2. Include all required metadata
+3. Ensure proper categorization
+4. Add validation methods
+5. Update the rule index
+
+## Maintenance
+
+Rules are regularly reviewed and updated to ensure:
+- Current best practices
+- Tool compatibility
+- Clear documentation
+- Proper validation
+- Effective integration
+
+## License
+
+This project is licensed under the terms of the included LICENSE file.

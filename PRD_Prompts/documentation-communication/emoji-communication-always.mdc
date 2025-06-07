@@ -1,0 +1,82 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Emoji Communication Guidelines
+
+## Context
+<!-- Context to be defined: Explain when and why this rule applies. -->
+
+These rules govern when and how we use emojis in our written communication (commit messages, pull-request descriptions, documentation, and team updates).
+
+---
+
+## 🔒 Critical Rules
+
+| # | Rule |
+|---|------|
+| 1 | **Purpose first.** Use an emoji only when it clarifies or amplifies the message. |
+| 2 | **Position:** place the emoji at the **end** of the sentence/section, never at the beginning or inline with words. |
+| 3 | **Frequency:** maximum **1-2 emojis per major section** (roughly one screen-length). |
+| 4 | **Tone:** remain professional; prefer clever or story-telling emojis over random celebration spam. |
+| 5 | **Relevance:** choose emojis that match the theme (e.g. 🐛 for bugs, 🚀 for performance gains). |
+| 6 | **Storytelling is welcome:** chaining 2-3 related emojis to create a micro-narrative is encouraged. |
+| 7 | **No repetition:** avoid using the same emoji twice in the same message. |
+| 8 | **No fluff:** skip confetti/cake/party emojis unless it's a genuine milestone. |
+
+---
+
+## ✅ Valid Examples
+
+<example>
+"I've optimized your database queries 🏃‍♂️"  
+"Your bug has been squashed 🥾🐛"  
+"I've cleaned up the legacy code 🧹✨"  
+"Fixed the performance issue 🐌➡️🐆"
+</example>
+
+---
+
+## 🚫 Invalid Examples
+
+<example type="invalid">
+"Multiple 🎉 emojis 🎊 in 🌟 one message"  
+"Using irrelevant emojis 🥑"  
+"Placing the emoji in the middle ⭐️ of a sentence"  
+"Great job!!!"  <!-- missing emoji -->
+</example>
+
+---
+
+## 🤖 Self-Learning Rules
+
+1. **Reaction Tracking**  
+   * After each message you send with emojis, observe user feedback (thumbs-up, follow-up sentiment, or explicit comments).  
+   * Keep a lightweight internal counter of positive vs. negative reactions for each emoji.
+
+2. **Dynamic Preference List**  
+   * Prefer emojis with a **≥ 70 % positive reaction rate** in future messages.  
+   * Phase out emojis that fall below **40 %**.
+
+3. **Context Tagging**  
+   * Tag each outgoing emoji with a short context label, e.g. `#performance`, `#cleanup`, `#bugfix`.  
+   * Use these tags to find new emoji candidates when a context's success rate drops.
+
+4. **Quarterly Review**  
+   * Every 3 months, summarise the top 10 most successful emojis and update this rule file.  
+   * Archive obsolete emojis in a "Retired" subsection for historical reference.
+
+5. **A/B Testing**  
+   * When introducing a new emoji, alternate between it and the current favourite for the same context until you have at least **10 data points** each.  
+   * Promote the winner; demote the loser.
+
+---
+
+## 📈 Retired Emojis (for reference)
+
+_None yet - all emojis are young and full of promise!_
+
+---
+
+**Remember:** A single well-chosen emoji beats a shower of confetti. Use them sparingly, finish strong, keep it fun ✨
