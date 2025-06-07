@@ -132,65 +132,72 @@ This repository contains a collection of rules and guidelines for Product Requir
 ## Categories
 
 ### 1. Development Standards
-- **Java 21 Programming** (`java21-programming-always.mdc`)
+- **Java 21 Programming** (`rules/java21-programming-always.mdc`)
   - Standards and best practices for Java 21 development
   - Modern Java features and patterns
 
-- **Functional Programming** (`functional-coding-practices.mdc`)
+- **Functional Programming** (`rules/functional-coding-practices.mdc`)
   - Functional programming principles
   - Immutable data structures
   - Pure functions and side effects
 
-- **Code Quality** (`no-hardcoded-strings.mdc`)
+- **Code Quality** (`rules/no-hardcoded-strings.mdc`)
   - String management
   - Internationalization
   - Configuration handling
 
 ### 2. Documentation and Communication
-- **Documentation Standards** (`documentation-and-comments-and-logs.mdc`)
+- **Documentation Standards** (`rules/documentation-and-comments-and-logs.mdc`)
   - Code documentation
   - Commenting guidelines
   - Logging practices
 
-- **AI Communication** (`global-ai-communication-behavior-always.mdc`)
+- **AI Communication** (`rules/global-ai-communication-behavior-always.mdc`)
   - AI interaction guidelines
   - Communication protocols
   - Response formatting
 
-- **Emoji Usage** (`emoji-communication-always.mdc`)
+- **Emoji Usage** (`rules/emoji-communication-always.mdc`)
   - Emoji guidelines
   - Communication enhancement
   - Visual feedback
 
 ### 3. Process and Workflow
-- **PRD Creation** (`create-prd.mdc`)
+- **PRD Creation** (`rules/create-prd.mdc`)
   - Product requirements documentation
   - Feature specification
   - User story mapping
 
-- **Task Management** (`generate-tasks.mdc`, `process-task-list.mdc`)
+- **Task Management** (`rules/generate-tasks.mdc`, `rules/process-task-list.mdc`)
   - Task generation
   - Task processing
   - Workflow management
 
 ### 4. Performance and Architecture
-- **Performance Review** (`performance-scalability-review.mdc`)
+- **Performance Review** (`rules/performance-scalability-review.mdc`)
   - Performance optimization
   - Scalability considerations
   - Resource management
 
-- **Logic Visualization** (`visualize-logic-and-flow.mdc`)
+- **Logic Visualization** (`rules/visualize-logic-and-flow.mdc`)
   - Flow diagrams
   - Logic mapping
   - System architecture
 
-### 5. Meta Rules
-- **Rule Index** (`rule-index.mdc`)
+### 5. Git and Version Control
+- **Jira ID Compliance** (`rules/git-rules/enforce-jira-id-git-in-branch-or-commit.mdc`)
+  - Branch naming conventions
+  - Commit message standards
+  - Jira ticket traceability
+  - Version control best practices
+
+### 6. Meta Rules
+- **Rule Index** (`rules/rule-index.mdc`)
   - Rule validation
   - Rule configuration
   - Rule maintenance
 
-- **Coding Instructions** (`coding-instructions.mdc`)
+- **Coding Instructions** (`rules/coding-instructions.mdc`)
   - General coding guidelines
   - Development standards
   - Best practices

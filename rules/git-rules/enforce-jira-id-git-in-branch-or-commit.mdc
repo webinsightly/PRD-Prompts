@@ -1,0 +1,66 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Jira ID Compliance for Branches and Commits
+
+## Context
+<!-- Context to be defined: Explain when and why this rule applies. -->
+
+## Rules
+
+- Every new commit must be associated with a valid **Jira Issue Key** (`HAT-159`, `ABC-1234`, etc.).
+- One of the following must be true:
+  - The **branch name** must start with a Jira ID in the format `[A-Z]{2,10}-[0-9]+`, followed by a short description.
+    - Example: `HAT-159-fix-query-issue`
+  - **OR** the **commit title** must start with the Jira ID, followed by a vertical bar (`|`), then the short commit message.
+    - Example: `HAT-159 | fix query issue`
+
+- Prefer having the Jira ID **in both** the branch name **and** the commit title if possible for maximum traceability.
+
+## Jira Key Format
+
+- Must be:
+  - 2-10 uppercase letters (A-Z)
+  - A dash `-`
+  - 1-6 digits
+- Examples:
+  - `HAT-159`
+  - `API-3401`
+  - `AUTH-78`
+
+## Commit Title Structure
+- Example: `HAT-159 | Add missing indexes for query optimization`
+- Use imperative mood ("Add", "Fix", "Update"), not past tense ("Added", "Fixed", "Updated").
+
+## Bad Examples
+
+<example type="invalid">
+- Branch name: `fix-query` (❌ Missing Jira ID)
+- Commit title: `fixed queries` (❌ Missing Jira ID and passive tense)
+- Branch: `hotfix-urgent`, commit: `quick fix` (❌ Missing traceability)
+</example>
+
+## Good Examples
+
+<example>
+- Branch: `HAT-159-optimize-database-index`
+- Commit Title: `HAT-159 | Optimize database index lookup`
+
+OR
+
+- Branch: `feature/add-new-endpoints`
+- Commit Title: `HAT-159 | Add new REST API endpoints`
+</example>
+
+## Enforcement Notes
+
+- If the branch name includes a Jira ID correctly, commit title can optionally be shorter.
+- If the branch name does **not** contain a Jira ID, commit title **must** include it.
+- Always aim for clean traceability back to project management (Jira).
+
+# Notes
+
+- This rule ensures traceability from code → commit → Jira ticket → feature/release.
+- Non-compliance requires commit title reformatting or branch rename before merge or delivery.
